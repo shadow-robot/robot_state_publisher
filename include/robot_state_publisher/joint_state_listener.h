@@ -63,7 +63,7 @@ public:
   ~JointStateListener();
 
   // Number of tries for reading robot_description from parameter server
-  static const size_t description_read_repitions_;
+  static const size_t description_read_repititions_;
 
   // Delay between the attempts to read robot_description
   static const double description_read_delay_;
