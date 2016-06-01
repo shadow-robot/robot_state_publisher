@@ -46,6 +46,8 @@ using namespace std;
 using namespace ros;
 using namespace KDL;
 using namespace robot_state_publisher;
+const size_t JointStateListener::description_read_repitions_ = 5;
+const double JointStateListener::description_read_delay_ = 0.5;
 
 JointStateListener::JointStateListener(const KDL::Tree& tree, const MimicMap& m, const urdf::Model& model)
   : state_publisher_(tree, model), mimic_(m)
@@ -152,6 +154,19 @@ int main(int argc, char** argv)
 
   // gets the location of the robot description on the parameter server
   urdf::Model model;
+
+  // Checks if the robot_description is present on the parameter server
+  // If not, it will repeat the check for 5 times with .5 second delay between the checks.
+  for (size_t i = 0; i < JointStateListener::description_read_repitions_; ++i) {
+    if (!node.hasParam("robot_description")) {
+      ROS_WARN_STREAM("No robot_description parameter in namespace " << node.getNamespace() <<
+                      ". Will try " << JointStateListener::description_read_repitions_ - i << " more times.");
+      ros::Duration(JointStateListener::description_read_delay_).sleep();
+    }
+    else {
+      break;
+    }
+  }
   model.initParam("robot_description");
   KDL::Tree tree;
   if (!kdl_parser::treeFromUrdfModel(model, tree)){
