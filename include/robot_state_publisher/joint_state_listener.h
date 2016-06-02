@@ -62,11 +62,11 @@ public:
   /// Destructor
   ~JointStateListener();
 
-  // Number of tries for reading robot_description from parameter server
-  static const size_t description_read_repititions_;
+  // Default value for number of attempts to read robot_description from parameter server
+  static const int default_description_read_repetitions_;
 
-  // Delay between the attempts to read robot_description
-  static const double description_read_delay_;
+  // Default value for delay between the attempts to read robot_description
+  static const double default_description_read_delay_;
 
 protected:
   virtual void callbackJointState(const JointStateConstPtr& state);
