@@ -161,15 +161,13 @@ int main(int argc, char** argv)
   int description_read_repetitions;
   node.param("/description_read_repetitions", description_read_repetitions,
              JointStateListener::default_description_read_repetitions_);
-  if (description_read_repetitions < 0)
-  {
+  if (description_read_repetitions < 0) {
     ROS_WARN_STREAM("description_read_repetitions is smaller than 0. Default value of 5 will be used.");
-    description_read_repetitions = 5;
+    description_read_repetitions = JointStateListener::default_description_read_repetitions_;
   }
   double description_read_delay;
   node.param("description_read_delay", description_read_delay, JointStateListener::default_description_read_delay_);
-  if (description_read_delay <= 0)
-  {
+  if (description_read_delay <= 0) {
     ROS_WARN_STREAM("description_read_delay is smaller than or equal 0. Default value of" <<
                     JointStateListener::default_description_read_delay_ << " seconds will be used.");
     description_read_delay = JointStateListener::default_description_read_delay_;
