@@ -46,7 +46,7 @@ using namespace std;
 using namespace ros;
 using namespace KDL;
 using namespace robot_state_publisher;
-const int JointStateListener::default_description_read_repetitions_ = 5;
+const int JointStateListener::default_description_read_repetitions_ = 0;
 const double JointStateListener::default_description_read_delay_ = 0.5;
 
 JointStateListener::JointStateListener(const KDL::Tree& tree, const MimicMap& m, const urdf::Model& model)
@@ -159,7 +159,7 @@ int main(int argc, char** argv)
   // If not, it will repeat the check for description_read_repetitions times with
   // description_read_delay seconds delay between the checks (both are read from parameter server).
   int description_read_repetitions;
-  node.param("/description_read_repetitions", description_read_repetitions,
+  node.param("description_read_repetitions", description_read_repetitions,
              JointStateListener::default_description_read_repetitions_);
   if (description_read_repetitions < 0) {
     ROS_WARN_STREAM("description_read_repetitions is smaller than 0. Default value of 5 will be used.");
